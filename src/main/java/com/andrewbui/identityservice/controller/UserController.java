@@ -2,6 +2,7 @@ package com.andrewbui.identityservice.controller;
 
 import com.andrewbui.identityservice.dto.request.UserCreationRequest;
 import com.andrewbui.identityservice.dto.request.UserUpdateRequest;
+import com.andrewbui.identityservice.dto.response.ApiResponse;
 import com.andrewbui.identityservice.entity.User;
 import com.andrewbui.identityservice.repository.UserRepository;
 import com.andrewbui.identityservice.service.UserService;
@@ -19,8 +20,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody @Valid UserCreationRequest request) {
-        return userService.createUser(request);
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @GetMapping

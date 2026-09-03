@@ -3,6 +3,8 @@ package com.andrewbui.identityservice.service;
 import com.andrewbui.identityservice.dto.request.UserCreationRequest;
 import com.andrewbui.identityservice.dto.request.UserUpdateRequest;
 import com.andrewbui.identityservice.entity.User;
+import com.andrewbui.identityservice.exception.AppException;
+import com.andrewbui.identityservice.exception.ErrorCode;
 import com.andrewbui.identityservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class UserService {
         User user = new User();
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("User existed");
+            throw new AppException(ErrorCode.USER_EXISTED);
         }
 
         user.setUsername(request.getUsername());
@@ -38,7 +40,7 @@ public class UserService {
 
     public User getUser(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_INVALID));
     }
 
     public User updateUser(UUID id ,UserUpdateRequest request) {
