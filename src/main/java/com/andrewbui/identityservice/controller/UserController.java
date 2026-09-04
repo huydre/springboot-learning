@@ -5,13 +5,11 @@ import com.andrewbui.identityservice.dto.request.UserUpdateRequest;
 import com.andrewbui.identityservice.dto.response.ApiResponse;
 import com.andrewbui.identityservice.dto.response.UserResponse;
 import com.andrewbui.identityservice.entity.User;
-import com.andrewbui.identityservice.repository.UserRepository;
 import com.andrewbui.identityservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

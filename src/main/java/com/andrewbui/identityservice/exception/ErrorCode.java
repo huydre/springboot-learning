@@ -3,6 +3,7 @@ package com.andrewbui.identityservice.exception;
 public enum ErrorCode {
     UNCATEGORIZED_EXCECPTION(400, "Uncategorize error"),
     USER_EXISTED(400, "User existed"),
+    USER_NOT_EXISTED(400, "User not existed"),
     USERNAME_INVALID(400, "Usernames must be at least 3 characters"),
     USER_INVALID(400, "User not found"),
     KEY_INVALID(400, "Key not found"),

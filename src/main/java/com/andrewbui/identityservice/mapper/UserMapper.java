@@ -5,7 +5,6 @@ import com.andrewbui.identityservice.dto.request.UserUpdateRequest;
 import com.andrewbui.identityservice.dto.response.UserResponse;
 import com.andrewbui.identityservice.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
