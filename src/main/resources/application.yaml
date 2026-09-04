@@ -4,6 +4,8 @@ server:
     context-path: /identity
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     platform: postgres
     url: "jdbc:postgresql://localhost:5432/identityservice"
