@@ -12,16 +12,22 @@ import com.andrewbui.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
@@ -42,10 +48,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public UserResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String name = Objects.requireNonNull(context.getAuthentication()).getName();
+        return userMapper.toUserResponse(userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
 
+    @PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getUser(UUID id) {
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_INVALID)));
