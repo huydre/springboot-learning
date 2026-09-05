@@ -1,28 +1,31 @@
 package com.andrewbui.identityservice.exception;
 
-public enum ErrorCode {
-    UNCATEGORIZED_EXCECPTION(400, "Uncategorize error"),
-    USER_EXISTED(400, "User existed"),
-    USER_NOT_EXISTED(400, "User not existed"),
-    UNAUTHENTICATED(400, "Unauthenticated"),
-    USERNAME_INVALID(400, "Usernames must be at least 3 characters"),
-    USER_INVALID(400, "User not found"),
-    KEY_INVALID(400, "Key not found"),
-    PASSWORD_INVALID(400, "Password must be at least 8 characters");
-    ;
-    private int code;
-    private String messgae;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
-    ErrorCode(int code, String messgae) {
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public enum ErrorCode {
+    UNCATEGORIZED_EXCECPTION(999, "Uncategorize error", HttpStatus.INTERNAL_SERVER_ERROR),
+    USER_EXISTED(1000, "User existed", HttpStatus.BAD_REQUEST),
+    USER_NOT_EXISTED(1001, "User not existed", HttpStatus.NOT_FOUND),
+    UNAUTHENTICATED(1002, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    USERNAME_INVALID(1003, "Usernames must be at least 3 characters", HttpStatus.BAD_REQUEST),
+    USER_INVALID(1004, "User not found", HttpStatus.BAD_REQUEST),
+    KEY_INVALID(1005, "Key not found", HttpStatus.NOT_FOUND),
+    PASSWORD_INVALID(1006, "Password must be at least 8 characters", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN);
+    ;
+    int code;
+    String messgae;
+    HttpStatusCode statusCode;
+
+    ErrorCode(int code, String messgae, HttpStatusCode statusCode) {
         this.code = code;
         this.messgae = messgae;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessgae() {
-        return messgae;
+        this.statusCode = statusCode;
     }
 }
