@@ -1,8 +1,11 @@
 package com.andrewbui.identityservice.mapper;
 
+import com.andrewbui.identityservice.dto.request.PermissionRequest;
 import com.andrewbui.identityservice.dto.request.UserCreationRequest;
 import com.andrewbui.identityservice.dto.request.UserUpdateRequest;
+import com.andrewbui.identityservice.dto.response.PermissionResponse;
 import com.andrewbui.identityservice.dto.response.UserResponse;
+import com.andrewbui.identityservice.entity.Permission;
 import com.andrewbui.identityservice.entity.Role;
 import com.andrewbui.identityservice.entity.User;
 import org.mapstruct.Mapper;
@@ -13,13 +16,8 @@ import java.util.List;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface UserMapper {
-    User toUser(UserCreationRequest request);
-    List<UserResponse> toUserResponseList(List<User> users);
-    UserResponse toUserResponse(User user);
-    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+public interface PermissionMapper {
+    Permission toPermission(PermissionRequest request);
 
-    default String map(Role role) {
-        return role == null ? null : role.getName();
-    }
+    PermissionResponse toPermissionResponse(Permission permission);
 }

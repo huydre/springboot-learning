@@ -8,6 +8,7 @@ import com.andrewbui.identityservice.enums.Role;
 import com.andrewbui.identityservice.exception.AppException;
 import com.andrewbui.identityservice.exception.ErrorCode;
 import com.andrewbui.identityservice.mapper.UserMapper;
+import com.andrewbui.identityservice.repository.RoleRepository;
 import com.andrewbui.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -30,6 +31,7 @@ import java.util.UUID;
 @Slf4j
 public class UserService {
     UserRepository userRepository;
+    RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
@@ -39,9 +41,11 @@ public class UserService {
         }
         User user = userMapper.toUser(request);
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        user.setRoles(roles);
+        var userRole = roleRepository.findById(Role.USER.name())
+                .orElseGet(() -> roleRepository.save(com.andrewbui.identityservice.entity.Role.builder()
+                        .name(Role.USER.name())
+                        .build()));
+        user.setRoles(Set.of(userRole));
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
