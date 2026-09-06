@@ -18,7 +18,7 @@ public enum ErrorCode {
     KEY_INVALID(1005, "Key not found", HttpStatus.NOT_FOUND),
     PASSWORD_INVALID(1006, "Password must be at least 8 characters", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
-    INVALID_DOB(1008, "You must be at least 18 years old", HttpStatus.BAD_REQUEST);
+    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST);
     ;
     int code;
     String messgae;
