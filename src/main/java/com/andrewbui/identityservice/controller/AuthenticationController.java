@@ -3,6 +3,7 @@ package com.andrewbui.identityservice.controller;
 import com.andrewbui.identityservice.dto.request.AuthenticationRequest;
 import com.andrewbui.identityservice.dto.request.IntrospectRequest;
 import com.andrewbui.identityservice.dto.request.LogoutRequest;
+import com.andrewbui.identityservice.dto.request.RefreshTokenRequest;
 import com.andrewbui.identityservice.dto.response.ApiResponse;
 import com.andrewbui.identityservice.dto.response.AuthenticationResponse;
 import com.andrewbui.identityservice.dto.response.IntrospectResponse;
@@ -45,5 +46,11 @@ public class AuthenticationController {
     ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
         authenticationService.logout(request);
         return  ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshTokenRequest request) throws ParseException, JOSEException {
+        var newToken = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder().result(newToken).build();
     }
 }
